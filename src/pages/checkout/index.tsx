@@ -19,42 +19,19 @@ import {
   SelectForm,
 } from './styles'
 import { Cart } from '../../components/Cart'
-import { useContext, useEffect, useState } from 'react'
-import {
-  OrderFinalizedProps,
-  ShoppingCartCoffeeContext,
-} from '../../contexts/CoffeeContext'
+import { useContext, useMemo } from 'react'
+import { ShoppingCartCoffeeContext } from '../../contexts/CoffeeContext'
+import { OrderFinalizedProps } from '../../types'
 import { useForm } from 'react-hook-form'
 import { ErrorMessage } from '@hookform/error-message'
 import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
-import * as zod from 'zod'
-
-/* INFO: falta
-[x]retirar os erros, 
-[x]validar o formulário
-[x]bloquear o botão de confirmar o pedido
-[x]corrigir a renderização do carrinho usando map no carrinho de compras e o finder na lista de café
-[x] impedir que seja adicionado mais que 9 unidades do mesmo café no carrinho
-[ ]limpeza no código
-[x]impossibilitar o selecionamento dos elementos da tela
-[x] máscara no campo de CEP
-*/
-
-const addressAndPaymentSchema = zod.object({
-  cep: zod.string().length(10, 'Informe um CEP válido'),
-  bairro: zod.string().min(1, 'Informe um Bairro'),
-  cidade: zod.string().min(1, 'Informe a Cidade'),
-  complemento: zod.string().optional(),
-  numero: zod.string().min(1, 'Informe o Número da residencia'),
-  rua: zod.string().min(1, 'Informe a endereço da Rua'),
-  uf: zod.string().length(2, 'Selecione o estado da residencia'),
-  formaPagamento: zod.string(),
-})
-
-type AddressAndPaymentOrderCoffeeDAta = zod.infer<
-  typeof addressAndPaymentSchema
->
+import { formatCEP, formatValue } from '../../utils/formatters'
+import { APP_CONFIG } from '../../config/constants'
+import {
+  addressAndPaymentSchema,
+  AddressAndPaymentFormData,
+} from '../../utils/validations'
 
 export function Checkout() {
   const {
@@ -63,7 +40,7 @@ export function Checkout() {
     watch,
     reset,
     formState: { errors },
-  } = useForm<AddressAndPaymentOrderCoffeeDAta>({
+  } = useForm<AddressAndPaymentFormData>({
     resolver: zodResolver(addressAndPaymentSchema),
   })
 
@@ -71,71 +48,69 @@ export function Checkout() {
     ShoppingCartCoffeeContext,
   )
 
-  const [totalQuantity, setTotalQuantity] = useState(0)
-
   const navigate = useNavigate()
 
-  const valueEachCoffee = 9.9
-  const shippingValue = 3.5
-
-  useEffect(() => {
-    const total = shoppingCart.reduce((getTotal, coffee) => {
-      return getTotal + coffee.amount
+  /**
+   * Calcula o valor total dos itens no carrinho
+   */
+  const totalItems = useMemo(() => {
+    return shoppingCart.reduce((total, item) => {
+      const coffee = coffeeLists.find((coffee) => coffee.id === item.id)
+      if (coffee) {
+        const price = parseFloat(coffee.value.replace(',', '.'))
+        return total + price * item.amount
+      }
+      return total
     }, 0)
-    setTotalQuantity(total)
-  }, [shoppingCart])
+  }, [shoppingCart, coffeeLists])
 
-  function handleOrderFinalized(data: AddressAndPaymentOrderCoffeeDAta) {
+  /**
+   * Valor do frete configurado
+   */
+  const shippingValueTotal = APP_CONFIG.SHIPPING_PRICE
+
+  function handleOrderFinalized(data: AddressAndPaymentFormData) {
     const orderFinalized: OrderFinalizedProps = {
-      id: String(new Date().getTime()),
-      OrderCoffee: shoppingCart,
       cep: data.cep,
-      address: data.rua,
-      number: data.numero,
-      complement: data.complemento,
-      neighborhood: data.bairro,
-      city: data.cidade,
+      rua: data.rua,
+      numero: data.numero,
+      bairro: data.bairro,
+      cidade: data.cidade,
       uf: data.uf,
-      paymentOrder: data.formaPagamento,
+      complemento: data.complemento,
+      formaPagamento: data.formaPagamento,
     }
     orderCoffeeFinalized(orderFinalized)
     reset()
     navigate('/success')
   }
 
-  function totalItems() {
-    const valor = totalQuantity * valueEachCoffee
-    return valor.toFixed(2)
+  /**
+   * Verifica se o formulário pode ser enviado
+   */
+  function isSubmitDisabled(): boolean {
+    const requiredFields = [
+      'formaPagamento',
+      'rua',
+      'numero',
+      'bairro',
+      'cidade',
+      'cep',
+      'uf',
+    ]
+    return (
+      !requiredFields.every((field) =>
+        watch(field as keyof AddressAndPaymentFormData),
+      ) || shoppingCart.length === 0
+    )
   }
 
-  function shippingValueTotal(valorDaCompra: string) {
-    const value = parseFloat(valorDaCompra) + shippingValue
-    return value.toFixed(2)
-  }
-
-  function formatValue(valor: string | number) {
-    return valor.toString().replace('.', ',')
-  }
-
-  function isSubmitDisabled() {
-    if (
-      watch('formaPagamento') &&
-      shoppingCart.length > 0 &&
-      watch('rua') &&
-      watch('numero') &&
-      watch('bairro')
-    ) {
-      return false
-    } else {
-      return true
-    }
-  }
-
-  function handleMask(e: React.FormEvent<HTMLInputElement>) {
-    let value = e.currentTarget.value
-    value = value.replace(/\D/g, '') // limpamos a digitação
-    value = value.replace(/^(\d{2})(\d{3})(\d{3})$/, '$1.$2-$3') // adiciona a pontuação
-    e.currentTarget.value = value
+  /**
+   * Aplica máscara de CEP no input
+   */
+  function handleCEPMask(e: React.FormEvent<HTMLInputElement>) {
+    const formatted = formatCEP(e.currentTarget.value)
+    e.currentTarget.value = formatted
   }
 
   return (
@@ -157,8 +132,8 @@ export function Checkout() {
               type="text"
               placeholder="CEP"
               variant="12.5rem"
-              maxLength={8}
-              onKeyUp={handleMask}
+              maxLength={9}
+              onKeyUp={handleCEPMask}
               {...register('cep')}
             />
             <ErrorMessage errors={errors} name="cep" />
@@ -279,16 +254,16 @@ export function Checkout() {
           <InformationPaymentSection>
             <p>
               <label>Total de itens</label>{' '}
-              <span>R$ {formatValue(totalItems())}</span>
+              <span>R$ {formatValue(totalItems.toFixed(2))}</span>
             </p>
             <p>
               <label>Entrega</label>
-              <span>R$ {formatValue(shippingValue.toFixed(2))}</span>
+              <span>R$ {formatValue(shippingValueTotal.toFixed(2))}</span>
             </p>
             <p>
               <strong>Total</strong>{' '}
               <strong>
-                R$ {formatValue(shippingValueTotal(totalItems()))}
+                R$ {formatValue((totalItems + shippingValueTotal).toFixed(2))}
               </strong>
             </p>
           </InformationPaymentSection>

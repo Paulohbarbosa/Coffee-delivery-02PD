@@ -7,18 +7,23 @@ import {
 import logo from '../../assets/logo.svg'
 import { NavLink } from 'react-router-dom'
 import { MapPin, ShoppingCart } from 'phosphor-react'
-import { useContext } from 'react'
-import { ShoppingCartCoffeeContext } from '../../contexts/CoffeeContext'
+import { useCart } from '../../hooks/useCart'
 
 export function Header() {
-  const { shoppingCart } = useContext(ShoppingCartCoffeeContext)
+  const { totalItemsInCart } = useCart()
 
+  /**
+   * Renderiza a quantidade de itens no carrinho
+   */
   function cartButtonInformation() {
-    if (shoppingCart.length > 0) {
-      return <p>{shoppingCart.length}</p>
-    } else {
-      return ''
+    if (totalItemsInCart > 0) {
+      return (
+        <span aria-label={`${totalItemsInCart} itens no carrinho`}>
+          {totalItemsInCart}
+        </span>
+      )
     }
+    return null
   }
 
   return (

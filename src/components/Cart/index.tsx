@@ -28,21 +28,13 @@ export function Cart({ id, img, name, amountValue, value }: CartProps) {
 
   function plus() {
     if (amount < 9) {
-      const item = {
-        id,
-        amount: 1,
-      }
-      changeOrderAmount(item)
+      changeOrderAmount(id, amount + 1)
       setAmount(amount + 1)
     }
   }
   function minus() {
     if (amount > 1) {
-      const item = {
-        id,
-        amount: -1,
-      }
-      changeOrderAmount(item)
+      changeOrderAmount(id, amount - 1)
       setAmount(amount - 1)
     }
   }

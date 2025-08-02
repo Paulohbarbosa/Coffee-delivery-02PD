@@ -17,7 +17,7 @@ import { ShoppingCartCoffeeContext } from '../../contexts/CoffeeContext'
 interface CardProps {
   id: number
   img: string
-  tags: { content: string }[]
+  tags: string[]
   name: string
   description: string
   value: string
@@ -58,14 +58,12 @@ export function Card({ id, img, tags, name, description, value }: CardProps) {
     }
   }
 
-  // console.log(img)
-
   return (
     <CardContainer>
       <img src={img} alt={`imagem da xícara de café ${name}`} />
       <CategoryContainer>
         {tags.map((tag) => {
-          return <Category key={tag.content}>{tag.content}</Category>
+          return <Category key={tag}>{tag}</Category>
         })}
       </CategoryContainer>
       <SubtitleCard>{name}</SubtitleCard>
