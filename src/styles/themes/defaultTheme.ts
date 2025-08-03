@@ -8,6 +8,15 @@ export const lightTheme = {
   'purple-light': '#EBE5F9',
   'purple-dark': '#4B2995',
 
+  // estados
+  green: '#00B37E',
+  'green-light': '#E6F7F1',
+  'green-dark': '#00875F',
+
+  red: '#F75A68',
+  'red-light': '#FDE8E8',
+  'red-dark': '#AA2834',
+
   // bases
   'base-title': '#272221',
   'base-subtitle': '#403937',
@@ -31,6 +40,15 @@ export const darkTheme = {
   purple: '#8047F8',
   'purple-light': '#2D1B4E',
   'purple-dark': '#4B2995',
+
+  // estados
+  green: '#00B37E',
+  'green-light': '#1A3A32',
+  'green-dark': '#00875F',
+
+  red: '#F75A68',
+  'red-light': '#3A1E1E',
+  'red-dark': '#AA2834',
 
   // bases - invertemos para dark
   'base-title': '#E6E5E5',
