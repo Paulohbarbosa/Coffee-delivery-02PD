@@ -1,15 +1,14 @@
 import { BrowserRouter } from 'react-router-dom'
-import { ThemeProvider } from 'styled-components'
 
 import { GlobalStyles } from './styles/global'
-import { lightTheme } from './styles/themes/defaultTheme'
 import { Router } from './Router'
 import { CoffeeContextProvider } from './contexts/CoffeeContext'
+import { ThemeContextProvider } from './contexts/ThemeContext'
 import { ErrorBoundary } from './components/ErrorBoundary'
 
 export function App() {
   return (
-    <ThemeProvider theme={lightTheme}>
+    <ThemeContextProvider>
       <BrowserRouter>
         <ErrorBoundary>
           <CoffeeContextProvider>
@@ -19,6 +18,6 @@ export function App() {
       </BrowserRouter>
 
       <GlobalStyles />
-    </ThemeProvider>
+    </ThemeContextProvider>
   )
 }

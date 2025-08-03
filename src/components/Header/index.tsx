@@ -8,6 +8,7 @@ import logo from '../../assets/logo.svg'
 import { NavLink } from 'react-router-dom'
 import { MapPin, ShoppingCart } from 'phosphor-react'
 import { useCart } from '../../hooks/useCart'
+import { ThemeToggle } from '../ThemeToggle'
 
 export function Header() {
   const { totalItemsInCart } = useCart()
@@ -40,6 +41,7 @@ export function Header() {
             <MapPin size={22} weight="fill" />
             Porto Alegre, RS
           </ButtonLocation>
+          <ThemeToggle />
           <NavLink to="/checkout" title="Carrinho">
             <ButtonContainer>
               <ButtonShoppingCart>

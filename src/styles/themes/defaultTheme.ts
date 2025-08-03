@@ -21,3 +21,27 @@ export const lightTheme = {
   background: '#FAFAFA',
   white: '#FFFFFF',
 }
+
+export const darkTheme = {
+  // produto - mantemos as cores de destaque
+  yellow: '#DBAC2C',
+  'yellow-light': '#3D3420',
+  'yellow-dark': '#C47F17',
+
+  purple: '#8047F8',
+  'purple-light': '#2D1B4E',
+  'purple-dark': '#4B2995',
+
+  // bases - invertemos para dark
+  'base-title': '#E6E5E5',
+  'base-subtitle': '#C4C4CC',
+  'base-text': '#A8A8B3',
+  'base-label': '#7C7C8A',
+  'base-hover': '#323238',
+  'base-button': '#29292E',
+  'base-input': '#202024',
+  'base-card': '#2C2C31',
+
+  background: '#121214',
+  white: '#29292E',
+}
