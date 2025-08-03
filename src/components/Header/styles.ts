@@ -36,7 +36,7 @@ export const ButtonLocation = styled.button`
   border: 0;
   border-radius: 6px;
 
-  color: ${(props) => props.theme['purple-dark']};
+  color: ${(props) => props.theme['base-subtitle']};
   background: ${(props) => props.theme['purple-light']};
 `
 export const ButtonContainer = styled.div`
