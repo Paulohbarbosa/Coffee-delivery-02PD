@@ -31,12 +31,9 @@ export function Success() {
             <InformationItens>
               <label>Entrega em</label>
               <span>
-                {orderFinalized.map((order) => {
-                  const address = `
-                    ${order.address}, ${order.number}, ${order.neighborhood}, ${order.city} - ${order.uf}. ${order.cep}
-                  `
-                  return address
-                })}
+                {orderFinalized
+                  ? `${orderFinalized.rua}, ${orderFinalized.numero}, ${orderFinalized.bairro}, ${orderFinalized.cidade} - ${orderFinalized.uf}. ${orderFinalized.cep}`
+                  : 'Endereço não informado'}
               </span>
             </InformationItens>
           </IntensContainer>
@@ -56,9 +53,9 @@ export function Success() {
             <InformationItens>
               <label>Pagamento na entrega</label>
               <span>
-                {orderFinalized.map((order) => {
-                  return order.paymentOrder
-                })}
+                {orderFinalized
+                  ? orderFinalized.formaPagamento
+                  : 'Forma de pagamento não informada'}
               </span>
             </InformationItens>
           </IntensContainer>

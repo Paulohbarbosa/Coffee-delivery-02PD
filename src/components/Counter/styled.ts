@@ -10,7 +10,7 @@ export const CounterContainer = styled.div`
 
   padding: 0.5rem;
   border-radius: 6px;
-  background-color: ${(props) => props.theme['base-button']};
+  background-color: ${(props) => props.theme['base-label'] + '20'};
 
   user-select: none;
 

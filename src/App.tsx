@@ -1,19 +1,23 @@
-import { ThemeProvider } from 'styled-components'
-import { lightTheme } from './styles/themes/defaultTheme'
+import { BrowserRouter } from 'react-router-dom'
+
 import { GlobalStyles } from './styles/global'
 import { Router } from './Router'
-import { BrowserRouter } from 'react-router-dom'
 import { CoffeeContextProvider } from './contexts/CoffeeContext'
+import { ThemeContextProvider } from './contexts/ThemeContext'
+import { ErrorBoundary } from './components/ErrorBoundary'
 
 export function App() {
   return (
-    <ThemeProvider theme={lightTheme}>
+    <ThemeContextProvider>
       <BrowserRouter>
-        <CoffeeContextProvider>
-          <Router />
-        </CoffeeContextProvider>
+        <ErrorBoundary>
+          <CoffeeContextProvider>
+            <Router />
+          </CoffeeContextProvider>
+        </ErrorBoundary>
       </BrowserRouter>
+
       <GlobalStyles />
-    </ThemeProvider>
+    </ThemeContextProvider>
   )
 }
