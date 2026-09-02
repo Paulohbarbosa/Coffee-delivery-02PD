@@ -17,7 +17,7 @@
 
 ## 📋 Descrição
 
-O **Coffee Delivery** é um projeto e desafio 02 desenvolvido no curso **Ignite ** [Rocketseat](https://www.rocketseat.com.br/) , evoluído com melhorias significativas de arquitetura, qualidade de código e experiência do usuário.
+O **Coffee Delivery** é um projeto e desafio 02 desenvolvido no curso **Ignite** [Rocketseat](https://www.rocketseat.com.br/) , evoluído com melhorias significativas de arquitetura, qualidade de código e experiência do usuário.
 
 ### 🎯 Funcionalidades Principais
 
