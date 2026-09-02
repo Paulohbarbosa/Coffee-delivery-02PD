@@ -15,7 +15,7 @@
 </h4>
 </div>
 
-## 📋 Sobre o projeto
+## 📋 Descrição
 
 O **Coffee Delivery** é um projeto e desafio 02 desenvolvido no curso **Ignite Rocketseat**, evoluído com melhorias significativas de arquitetura, qualidade de código e experiência do usuário.
 
@@ -78,7 +78,7 @@ O **Coffee Delivery** é um projeto e desafio 02 desenvolvido no curso **Ignite 
 - **Responsividade**: Interface adaptável
 - **Acessibilidade**: HTML semântico e navegação por teclado
 
-## 🛠️ Tecnologias Utilizadas
+## 🛠️ Tecnologias
 
 ### **Core**
 - **[React](https://pt-br.reactjs.org/)** - Biblioteca para interfaces
