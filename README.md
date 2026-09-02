@@ -80,20 +80,13 @@ O **Coffee Delivery** é um projeto e desafio 02 desenvolvido no curso **Ignite 
 
 ## 🛠️ Tecnologias
 
-### **Core**
 - **[React](https://pt-br.reactjs.org/)** - Biblioteca para interfaces
 - **[TypeScript](https://www.typescriptlang.org/)** - Tipagem estática
 - **[Vite](https://vitejs.dev/)** - Build tool moderna
-
-### **Estilização**
 - **[Styled Components](https://styled-components.com/)** - CSS-in-JS
 - **[Phosphor Icons](https://phosphoricons.com/)** - Ícones modernos
-
-### **Formulários e Validação**
 - **[React Hook Form](https://react-hook-form.com/)** - Gerenciamento de formulários
 - **[Zod](https://zod.dev/)** - Validação de schemas
-
-### **Roteamento**
 - **[React Router DOM](https://reactrouter.com/)** - Navegação SPA
 
 ## 📁 Estrutura do Projeto
